@@ -1,4 +1,10 @@
+import TodoHeader from './components/header/TodoHeader';
+
 const App = () => {
-   return <div className='text-red-400'>Todo App</div>;
+   return (
+      <div className=''>
+         <TodoHeader />
+      </div>
+   );
 };
 export default App;
