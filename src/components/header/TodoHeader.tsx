@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { motion, Variants } from 'framer-motion';
 import { TodoContext } from '../../context/TodoContext';
 
@@ -15,6 +15,7 @@ const Button = ({ text, onClick }: { text: string; onClick?: () => void }) => {
 const TodoHeader = () => {
    const [todo, setTodo] = useState('');
    const [animate, setAnimate] = useState('');
+   const inputRef = useRef<HTMLInputElement | null>(null);
    const { addTodo, todos } = useContext(TodoContext);
    const variants: Variants = {
       initial: {
@@ -32,6 +33,10 @@ const TodoHeader = () => {
       },
    };
 
+   useEffect(() => {
+      inputRef.current?.focus();
+   }, []);
+
    const addTodoHandler = () => {
       if (todo) {
          const newTodo = {
@@ -40,6 +45,7 @@ const TodoHeader = () => {
             isCompleted: false,
          };
          addTodo(newTodo);
+         inputRef.current?.focus();
          setTodo('');
          console.log(todos);
       } else {
@@ -57,9 +63,10 @@ const TodoHeader = () => {
             initial='initial'
             animate='animate'
             className='w-[50%] h-[40%] flex justify-center items-center bg-gradient-to-r from-indigo-400 to-indigo-500 rounded-lg overflow-hidden'>
-            <div className='w-[99%] h-[88%] bg-white rounded-md overflow-hidden flex justify-between items-center px-2'>
+            <div className='w-[98.5%] h-[88%] bg-white rounded-md overflow-hidden flex justify-between items-center px-2'>
                <div className='w-[250px] h-[60%]'>
                   <input
+                     ref={inputRef}
                      value={todo}
                      onChange={(e) => {
                         setTodo(e.target.value);
