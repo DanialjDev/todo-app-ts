@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { motion, Variants } from 'framer-motion';
+import { TodoContext } from '../../context/TodoContext';
 
-const Button = ({ text }: { text: string }) => {
+const Button = ({ text, onClick }: { text: string; onClick?: () => void }) => {
    return (
-      <button className='bg-gradient-to-r from-indigo-400 to-indigo-500 px-3 py-2 rounded-md mx-4 text-white'>
+      <button
+         onClick={onClick}
+         className='bg-gradient-to-r from-indigo-400 to-indigo-500 px-3 py-2 rounded-md mx-4 text-white'>
          {text}
       </button>
    );
@@ -12,7 +15,7 @@ const Button = ({ text }: { text: string }) => {
 const TodoHeader = () => {
    const [todo, setTodo] = useState('');
    const [animate, setAnimate] = useState('');
-
+   const { addTodo, todos } = useContext(TodoContext);
    const variants: Variants = {
       initial: {
          y: '-20vh',
@@ -29,6 +32,24 @@ const TodoHeader = () => {
       },
    };
 
+   const addTodoHandler = () => {
+      if (todo) {
+         const newTodo = {
+            text: todo,
+            id: Math.floor(Math.random() * 1000),
+            isCompleted: false,
+         };
+         addTodo(newTodo);
+         setTodo('');
+         console.log(todos);
+      } else {
+         setAnimate('animate-float !border-red-400');
+         setTimeout(() => {
+            setAnimate('');
+         }, 1100);
+      }
+   };
+
    return (
       <div className='w-full h-44 flex justify-center items-center'>
          <motion.div
@@ -40,7 +61,10 @@ const TodoHeader = () => {
                <div className='w-[250px] h-[60%]'>
                   <input
                      value={todo}
-                     onChange={(e) => setTodo(e.target.value)}
+                     onChange={(e) => {
+                        setTodo(e.target.value);
+                        setAnimate('');
+                     }}
                      type='text'
                      className={`w-full h-full border-l-[3px] border-indigo-400 outline-none pl-1 ${
                         todo ? '' : animate
@@ -49,7 +73,7 @@ const TodoHeader = () => {
                   />
                </div>
                <div className='h-full flex items-center'>
-                  <Button text='Add Todo' />
+                  <Button onClick={addTodoHandler} text='Add Todo' />
                   <Button text='Clear List' />
                </div>
             </div>
