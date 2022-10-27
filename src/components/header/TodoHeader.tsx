@@ -16,7 +16,7 @@ const TodoHeader = () => {
    const [todo, setTodo] = useState('');
    const [animate, setAnimate] = useState('');
    const inputRef = useRef<HTMLInputElement | null>(null);
-   const { addTodo, todos } = useContext(TodoContext);
+   const { clearList, addTodo, todos } = useContext(TodoContext);
    const variants: Variants = {
       initial: {
          y: '-20vh',
@@ -63,8 +63,8 @@ const TodoHeader = () => {
             initial='initial'
             animate='animate'
             className='w-[50%] h-[40%] flex justify-center items-center bg-gradient-to-r from-indigo-400 to-indigo-500 rounded-lg overflow-hidden'>
-            <div className='w-[98.5%] h-[88%] bg-white rounded-md overflow-hidden flex justify-between items-center px-2'>
-               <div className='w-[250px] h-[60%]'>
+            <div className='w-[98.7%] h-[88%] bg-white rounded-md overflow-hidden flex justify-between items-center px-2'>
+               <div className='w-[50%] h-[60%]'>
                   <input
                      ref={inputRef}
                      value={todo}
@@ -81,7 +81,7 @@ const TodoHeader = () => {
                </div>
                <div className='h-full flex items-center'>
                   <Button onClick={addTodoHandler} text='Add Todo' />
-                  <Button text='Clear List' />
+                  <Button onClick={() => clearList()} text='Clear List' />
                </div>
             </div>
          </motion.div>

@@ -4,6 +4,7 @@ import todoReducer from './reducer';
 export interface InitialState {
    todos: Todo[];
    addTodo: (todo: Todo) => void;
+   toggleTodo: (id: number) => void;
    deleteTodo: (id: number) => void;
    clearList: () => void;
 }
@@ -17,6 +18,7 @@ export interface Todo {
 const initialState: InitialState = {
    todos: [],
    addTodo: (todo) => {},
+   toggleTodo: (id) => {},
    deleteTodo: (id) => {},
    clearList: () => {},
 };
@@ -28,10 +30,10 @@ export const TodoContextProvider = ({ children }: { children: ReactNode }) => {
 
    const value: InitialState = {
       todos: todoState.todos,
-      addTodo: (todo: Todo) => dispatch({ type: 'add-todo', payload: todo }),
-      deleteTodo: (id: number) =>
-         dispatch({ type: 'delete-todo', payload: id }),
+      addTodo: (todo) => dispatch({ type: 'add-todo', payload: todo }),
+      deleteTodo: (id) => dispatch({ type: 'delete-todo', payload: id }),
       clearList: () => dispatch({ type: 'clear-list' }),
+      toggleTodo: (id) => dispatch({ type: 'toggle-todo', payload: id }),
    };
 
    return <TodoContext.Provider value={value}>{children}</TodoContext.Provider>;

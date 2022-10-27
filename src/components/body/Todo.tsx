@@ -4,7 +4,7 @@ import { BsTrashFill, BsCheck2 } from 'react-icons/bs';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 
 const TodoItem = ({ todo }: { todo: Todo }) => {
-   const { deleteTodo } = useContext(TodoContext);
+   const { deleteTodo, toggleTodo } = useContext(TodoContext);
    const [show, setShow] = useState(false);
    const variants: Variants = {
       initial: {
@@ -43,8 +43,12 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
                initial='initial'
                animate='animate'
                exit='exit'
-               className='w-[90%] h-[90%] rounded-md bg-gradient-to-r from-indigo-400 to-indigo-500 p-1'>
-               <div className='w-full h-full bg-white rounded-md flex justify-between items-center flex-col p-1'>
+               className={`w-[90%] rounded-md bg-gradient-to-r ${
+                  todo.isCompleted
+                     ? 'from-green-400 to-green-500 transition-colors duration-1000'
+                     : 'from-indigo-400 to-indigo-500 transition-colors duration-1000'
+               } p-1`}>
+               <div className='w-full h-[120px] bg-white rounded-md flex justify-between items-center flex-col p-1'>
                   <div className='w-full p-2 text-xl'>
                      <p>{todo.text}</p>
                   </div>
@@ -53,7 +57,13 @@ const TodoItem = ({ todo }: { todo: Todo }) => {
                         className='mr-2 text-red-500 cursor-pointer'
                         onClick={deleteTodoHandler}
                      />
-                     <BsCheck2 className='mr-2 text-green-500 cursor-pointer' />
+                     <BsCheck2
+                        className='mr-2 text-green-500 cursor-pointer'
+                        onClick={() => {
+                           toggleTodo(todo.id);
+                           console.log(todo);
+                        }}
+                     />
                   </div>
                </div>
             </motion.div>
