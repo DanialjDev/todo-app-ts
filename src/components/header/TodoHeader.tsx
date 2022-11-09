@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { motion, Variants } from 'framer-motion';
 import { TodoContext } from '../../context/TodoContext';
+import toast from 'react-hot-toast';
 
 const Button = ({ text, onClick }: { text: string; onClick?: () => void }) => {
    return (
@@ -45,19 +46,20 @@ const TodoHeader = () => {
             isCompleted: false,
          };
          addTodo(newTodo);
-         inputRef.current?.focus();
          setTodo('');
          console.log(todos);
       } else {
          setAnimate('animate-float !border-red-400');
+         toast.error('please add a todo');
          setTimeout(() => {
             setAnimate('');
          }, 1100);
       }
+      inputRef.current?.focus();
    };
 
    return (
-      <div className='w-full h-44 flex justify-center items-center'>
+      <div className='w-full h-44 flex justify-center items-center mt-14'>
          <motion.div
             variants={variants}
             initial='initial'

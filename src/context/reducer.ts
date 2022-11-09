@@ -1,22 +1,5 @@
-import type { InitialState, Todo } from './TodoContext';
-
-interface AddTodo {
-   type: 'add-todo';
-   payload: Todo;
-}
-interface ToggleTodo {
-   type: 'toggle-todo';
-   payload: number;
-}
-interface DeleteTodo {
-   type: 'delete-todo';
-   payload: number;
-}
-interface ClearList {
-   type: 'clear-list';
-}
-
-type Action = AddTodo | DeleteTodo | ClearList | ToggleTodo;
+import { Action } from './actions';
+import type { InitialState } from './TodoContext';
 
 const todoReducer = (state: InitialState, action: Action): InitialState => {
    switch (action.type) {
